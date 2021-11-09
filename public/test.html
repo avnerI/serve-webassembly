@@ -1,0 +1,38 @@
+<html>
+
+<head>
+  <title>Webassembly</title>
+</head>
+
+<script>
+  const calculate = async () => {
+    const response = await fetch('add.wasm');
+
+    const buffer = await response.arrayBuffer();
+    const obj = await WebAssembly.instantiate(buffer);
+
+
+    const one = document.getElementById("one");
+    const two = document.getElementById("two");
+
+    const results = obj.instance.exports.add(one.value, two.value);
+
+    const element = document.getElementById("result");
+    element.innerHTML = results;
+
+  }
+</script>
+
+<body style="background-color: azure">
+  <div style="display: flex; align-items: center; flex-direction: column">
+    <h1>Webassembly result:</h1>
+
+    <label for="one">First number</label><input id="one" type="number" placeholder="first number" />
+    <label for="two">Second number</label><input id="two" type="number" placeholder="second number" />
+    <input type="button" value="calculate" onclick="calculate()" />
+    <p style="font-size: 21px" id="result">...</p>
+  </div>
+
+</body>
+
+</html>

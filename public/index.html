@@ -1,0 +1,30 @@
+<html>
+
+<head>
+  <title>Webassembly</title>
+</head>
+
+<script>
+  async function fetchAndInstantiate() {
+    const response = await fetch('add.wasm');
+    const buffer = await response.arrayBuffer();
+    const obj = await WebAssembly.instantiate(buffer);
+    const results = obj.instance.exports.add(1, 2);
+    console.log(results);
+
+    const element = document.getElementById("result");
+    element.innerHTML = results;
+  }
+
+  fetchAndInstantiate();
+</script>
+
+<body style="background-color: azure">
+  <div style="display: flex; align-items: center; flex-direction: column">
+    <h1>Webassembly result:</h1>
+    <p style="font-size: 21px" id="result">...</p>
+  </div>
+
+</body>
+
+</html>
